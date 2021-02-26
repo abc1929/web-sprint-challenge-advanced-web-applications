@@ -95,8 +95,8 @@ const ColorList = ({ colors, updateColors, ping }) => {
                position: "fixed",
                top: "0vh",
                left: "0vw",
-               width: "100vw",
-               height: "100vh",
+               width: "10000px",
+               height: "10000px",
                background: "rgba(0,0,0,0.75)",
                visibility: "hidden",
             }}

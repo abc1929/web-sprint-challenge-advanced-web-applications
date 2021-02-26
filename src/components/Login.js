@@ -46,6 +46,7 @@ const Login = () => {
                   <button
                      onClick={(e) => {
                         e.preventDefault();
+
                         axios
                            .post("http://localhost:5000/api/login", {
                               username: username.current.value,
