@@ -22,7 +22,10 @@ const ColorList = ({ colors, updateColors, ping }) => {
 
       axiosWithAuth()
          .put("http://localhost:5000/api/colors/" + colorToEdit.id, colorToEdit)
-         .then(() => ping())
+         .then(() => {
+            ping();
+            setEditing(!editing);
+         })
          .catch((err) => console.log(err));
    };
 
