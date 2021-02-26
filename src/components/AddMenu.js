@@ -49,14 +49,14 @@ export default function AddMenu(props) {
          <input name="hex" id="hex" ref={hexcode} />
 
          <div className="button-row">
-            <button type="submit">save</button>
+            <button type="submit">add</button>
             <button
                onClick={(e) => {
                   e.preventDefault();
                   props.modal.current.style.visibility = "hidden";
                }}
             >
-               cancel
+               notyet
             </button>
          </div>
       </form>
