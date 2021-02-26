@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import EditMenu from "./EditMenu";
 import axiosWithAuth from "../helpers/axiosWithAuth";
+import AddMenu from "./AddMenu";
 
 const initialColor = {
    color: "",
@@ -10,6 +11,7 @@ const initialColor = {
 const ColorList = ({ colors, updateColors, ping }) => {
    const [editing, setEditing] = useState(false);
    const [colorToEdit, setColorToEdit] = useState(initialColor);
+   const modal = useRef();
 
    const editColor = (color) => {
       setEditing(true);
@@ -18,7 +20,7 @@ const ColorList = ({ colors, updateColors, ping }) => {
 
    const saveEdit = (e) => {
       e.preventDefault();
-      console.log(colorToEdit);
+      // console.log(colorToEdit);
 
       axiosWithAuth()
          .put("http://localhost:5000/api/colors/" + colorToEdit.id, colorToEdit)
@@ -33,7 +35,10 @@ const ColorList = ({ colors, updateColors, ping }) => {
       // console.log(color);
       axiosWithAuth()
          .delete("http://localhost:5000/api/colors/" + color.id)
-         .then(() => ping())
+         .then(() => {
+            ping();
+            setEditing(!editing);
+         })
          .catch((err) => console.log(err));
    };
 
@@ -68,6 +73,15 @@ const ColorList = ({ colors, updateColors, ping }) => {
                </li>
             ))}
          </ul>
+         {!editing && (
+            <button
+               onClick={() => {
+                  modal.current.style.visibility = "visible";
+               }}
+            >
+               Add Color
+            </button>
+         )}
          {editing && (
             <EditMenu
                colorToEdit={colorToEdit}
@@ -76,6 +90,30 @@ const ColorList = ({ colors, updateColors, ping }) => {
                setEditing={setEditing}
             />
          )}
+         <div
+            style={{
+               position: "fixed",
+               top: "0vh",
+               left: "0vw",
+               width: "100vw",
+               height: "100vh",
+               background: "rgba(0,0,0,0.75)",
+               visibility: "hidden",
+            }}
+            ref={modal}
+         >
+            <div
+               style={{
+                  position: "fixed",
+                  top: "30vh",
+                  left: "40vw",
+                  background: "#e6e6e6",
+                  padding: "6vh",
+               }}
+            >
+               <AddMenu modal={modal} ping={ping}></AddMenu>
+            </div>
+         </div>
       </div>
    );
 };
