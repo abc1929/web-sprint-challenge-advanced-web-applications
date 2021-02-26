@@ -17,22 +17,30 @@ const Login = () => {
       <div>
          <h1>Welcome to the Bubble App!</h1>
          <div>
-            <form action="">
-               <label>Username</label>
-               <input
-                  placeholder="Username"
-                  //  defaultValue="Lambda School"
-                  onChange={() => setError("")}
-                  ref={username}
-               />
-               <label>Password</label>
+            <form>
+               <label>
+                  username
+                  <input
+                     type="text"
+                     name="username"
+                     placeholder="Username"
+                     //  defaultValue="Lambda School"
+                     onChange={() => setError("")}
+                     ref={username}
+                  />
+               </label>
 
-               <input
-                  placeholder="Password"
-                  //  defaultValue="i<3Lambd4"
-                  onChange={() => setError("")}
-                  ref={pass}
-               />
+               <label>
+                  password
+                  <input
+                     placeholder="Password"
+                     name="password"
+                     //  defaultValue="i<3Lambd4"
+                     onChange={() => setError("")}
+                     ref={pass}
+                  />
+               </label>
+
                {error && <p> Username or Password not valid. </p>}
                <div>
                   <button
