@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { Box, Input, Button, FormLabel } from "@chakra-ui/react";
+
 import axiosWithAuth from "../helpers/axiosWithAuth";
 
 import { useHistory } from "react-router-dom";
@@ -11,23 +11,30 @@ const Login = () => {
    const history = useHistory();
    const username = useRef();
    const pass = useRef();
+   const [error, setError] = useState("");
 
    return (
-      <Box>
+      <div>
          <h1>Welcome to the Bubble App!</h1>
-         <Box>
-            <FormLabel>Username</FormLabel>
-            <Input
+         <div>
+            <label>Username</label>
+            <input
                placeholder="Username"
-               defaultValue="Lambda School"
+               //  defaultValue="Lambda School"
+               onChange={() => setError("")}
                ref={username}
             />
-            <FormLabel>Password</FormLabel>
+            <label>Password</label>
 
-            <Input placeholder="password" defaultValue="i<3Lambd4" ref={pass} />
-
-            <Box>
-               <Button
+            <input
+               placeholder="Password"
+               //  defaultValue="i<3Lambd4"
+               onChange={() => setError("")}
+               ref={pass}
+            />
+            {error && <p> Username or Password not valid. </p>}
+            <div>
+               <button
                   onClick={() => {
                      axios
                         .post("http://localhost:5000/api/login", {
@@ -39,15 +46,15 @@ const Login = () => {
                            localStorage.setItem("token", res.data.payload);
                            history.push("/bubbles");
                         })
-                        .catch((err) => console.log(err));
+                        .catch((err) => setError("yes"));
                   }}
                >
                   Login
-               </Button>
-               <Button>Cancel</Button>
-            </Box>
-         </Box>
-      </Box>
+               </button>
+               <button>Cancel</button>
+            </div>
+         </div>
+      </div>
    );
 };
 
