@@ -45,15 +45,17 @@ const ColorList = ({ colors, updateColors, ping }) => {
                   onClick={() => editColor(color)}
                >
                   <span>
-                     <span
-                        className="delete"
-                        onClick={(e) => {
-                           e.stopPropagation();
-                           deleteColor(color);
-                        }}
-                     >
-                        x
-                     </span>{" "}
+                     {editing && (
+                        <span
+                           className="delete"
+                           onClick={(e) => {
+                              e.stopPropagation();
+                              deleteColor(color);
+                           }}
+                        >
+                           x
+                        </span>
+                     )}{" "}
                      {color.color}
                   </span>
                   <div
