@@ -17,42 +17,45 @@ const Login = () => {
       <div>
          <h1>Welcome to the Bubble App!</h1>
          <div>
-            <label>Username</label>
-            <input
-               placeholder="Username"
-               //  defaultValue="Lambda School"
-               onChange={() => setError("")}
-               ref={username}
-            />
-            <label>Password</label>
+            <form action="">
+               <label>Username</label>
+               <input
+                  placeholder="Username"
+                  //  defaultValue="Lambda School"
+                  onChange={() => setError("")}
+                  ref={username}
+               />
+               <label>Password</label>
 
-            <input
-               placeholder="Password"
-               //  defaultValue="i<3Lambd4"
-               onChange={() => setError("")}
-               ref={pass}
-            />
-            {error && <p> Username or Password not valid. </p>}
-            <div>
-               <button
-                  onClick={() => {
-                     axios
-                        .post("http://localhost:5000/api/login", {
-                           username: username.current.value,
-                           password: pass.current.value,
-                        })
-                        .then((res) => {
-                           //  console.log(res.data.payload);
-                           localStorage.setItem("token", res.data.payload);
-                           history.push("/bubbles");
-                        })
-                        .catch((err) => setError("yes"));
-                  }}
-               >
-                  Login
-               </button>
-               <button>Cancel</button>
-            </div>
+               <input
+                  placeholder="Password"
+                  //  defaultValue="i<3Lambd4"
+                  onChange={() => setError("")}
+                  ref={pass}
+               />
+               {error && <p> Username or Password not valid. </p>}
+               <div>
+                  <button
+                     onClick={(e) => {
+                        e.preventDefault();
+                        axios
+                           .post("http://localhost:5000/api/login", {
+                              username: username.current.value,
+                              password: pass.current.value,
+                           })
+                           .then((res) => {
+                              //  console.log(res.data.payload);
+                              localStorage.setItem("token", res.data.payload);
+                              history.push("/bubbles");
+                           })
+                           .catch((err) => setError("yes"));
+                     }}
+                  >
+                     Login
+                  </button>
+                  <button>Cancel</button>
+               </div>
+            </form>
          </div>
       </div>
    );
