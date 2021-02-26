@@ -1,18 +1,40 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosWithAuth from "../helpers/axiosWithAuth";
 
 import Bubbles from "./Bubbles";
 import ColorList from "./ColorList";
+import { Box } from "@chakra-ui/react";
 
-const BubblePage = () => {
-  const [colorList, setColorList] = useState([]);
+const BubblePage = (props) => {
+   const [colorList, setColorList] = useState([]);
+   const [trigger, setTrigger] = useState(0);
+   const ping = () => {
+      setTrigger(trigger + 1);
+   };
 
-  return (
-    <>
-      <ColorList colors={colorList} updateColors={setColorList} />
-      <Bubbles colors={colorList} />
-    </>
-  );
+   useEffect(() => {
+      if (props.mock) {
+         setColorList(props.mockdata);
+         return;
+      } // a bit of a hack for testing in jest, otherwise it has issues that I have yet to solve
+      axiosWithAuth()
+         .get("http://localhost:5000/api/colors")
+         .then((res) => {
+            setColorList(res.data);
+         })
+         .catch((err) => {});
+   }, [trigger]);
+
+   return (
+      <Box display="flex" flexDirection="row">
+         <ColorList
+            colors={colorList}
+            updateColors={setColorList}
+            ping={ping}
+         />
+         <Bubbles colors={colorList} />
+      </Box>
+   );
 };
 
 export default BubblePage;
